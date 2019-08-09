@@ -132,12 +132,15 @@ term : NUMBER
 |      VARIABLE
 |      ANONYMOUS_VARIABLE
 |      PAREN_OPEN term PAREN_CLOSE
-|      NUMBER arithop term
-|      STRING arithop term
-|      ANONYMOUS_VARIABLE arithop term
+|      termdue term
+|      termdue termdue
 
-
-
+termdue: NUMBER arithop
+|      STRING arithop
+|      VARIABLE arithop
+|      ANONYMOUS_VARIABLE arithop
+|      PAREN_OPEN termdue PAREN_CLOSE arithop
+|      PAREN_OPEN term PAREN_CLOSE arithop
 
 arithop : PLUS | MINUS | TIMES | DIV
 
