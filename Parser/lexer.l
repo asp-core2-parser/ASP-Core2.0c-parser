@@ -1,13 +1,13 @@
 %option noyywrap
 %{
-	#include "parser.tab.h"
+		#include "parser.tab.h"
     	#include <stdio.h>
     	#include <string.h>
 %}
 
 %%
 
-"not"              	{return NOT;}
+"not"              	{return NAF;}
 [a-z][A-Za-z0-9_]* 	{return ID;}
 [A-Z][A-Za-z0-9_]* 	{return VARIABLE;}
 \"([^\"]|\\\")*\"  	{return STRING;}
@@ -48,8 +48,3 @@
 "%*"([^*]|\*[^%])*"*%"  {return MULTI_LINE_COMMENT;}
 [ \t\n]+           	{return BLANK;}
 %%
-
-int main(int argc, char** argv){
-    yylex();
-    return 0;
-}
