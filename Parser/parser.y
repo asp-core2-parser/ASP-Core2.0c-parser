@@ -16,13 +16,19 @@
     double number;
 }
 %%
-s : program | "^"
-program : statements
+s: program | "^"
+;
+
+program: statements
 |         query
 |         statements query
-statements : statements statement
+;
+
+statements: statements statement
 |            statement
-statement : CONS body DOT
+;
+
+statement: CONS body DOT
           | CONS DOT
           | head CONS DOT
           | head CONS body DOT
@@ -30,22 +36,27 @@ statement : CONS body DOT
           | WCONS body DOT SQUARE_OPEN weight_at_level SQUARE_CLOSE
           | WCONS DOT SQUARE_OPEN weight_at_level SQUARE_CLOSE
           | optimize DOT
+;
 
-query : classical_literal QUERY_MARK
+query: classical_literal QUERY_MARK
+;
 
-head : disjunction | choice
+head: disjunction | choice
+;
 
-body : naf_literal
+body: naf_literal
 |      aggregate
 |      NAF aggregate
 |      body COMMA naf_literal
 |      body COMMA aggregate
 |      body COMMA NAF aggregate
+;
 
-disjunction : disjunction OR classical_literal
+disjunction: disjunction OR classical_literal
 |             classical_literal
+;
 
-choice : CURLY_OPEN choice_elements CURLY_CLOSE binop term
+choice: CURLY_OPEN choice_elements CURLY_CLOSE binop term
 |        CURLY_OPEN CURLY_CLOSE binop term
 |        CURLY_OPEN CURLY_CLOSE
 |        CURLY_OPEN choice_elements CURLY_CLOSE
@@ -53,84 +64,120 @@ choice : CURLY_OPEN choice_elements CURLY_CLOSE binop term
 |        term binop CURLY_OPEN CURLY_CLOSE binop term
 |        term binop CURLY_OPEN CURLY_CLOSE
 |        term binop CURLY_OPEN choice_elements CURLY_CLOSE binop term
+|	     CURLY_OPEN choice_elements CURLY_CLOSE binop classical_literal
+|        CURLY_OPEN CURLY_CLOSE binop classical_literal
+|        classical_literal binop CURLY_OPEN choice_elements CURLY_CLOSE
+|        classical_literal binop CURLY_OPEN CURLY_CLOSE binop classical_literal
+|        classical_literal binop CURLY_OPEN CURLY_CLOSE binop term
+|        term binop CURLY_OPEN CURLY_CLOSE binop classical_literal
+|        classical_literal binop CURLY_OPEN CURLY_CLOSE
+|        classical_literal binop CURLY_OPEN choice_elements CURLY_CLOSE binop classical_literal
+|        classical_literal binop CURLY_OPEN choice_elements CURLY_CLOSE binop term
+|        term binop CURLY_OPEN choice_elements CURLY_CLOSE binop classical_literal
+;
 
-choice_elements : choice_elements SEMICOLON choice_element
+choice_elements: choice_elements SEMICOLON choice_element
 |                 choice_element
+;
 
-choice_element : classical_literal COLON naf_literal
+choice_element: classical_literal COLON naf_literal
 |               classical_literal COLON
 |               classical_literal
+;
 
-aggregate : aggregate_function CURLY_OPEN aggregate_elements CURLY_CLOSE binop term
-|        aggregate_function CURLY_OPEN CURLY_CLOSE binop term
-|        aggregate_function CURLY_OPEN CURLY_CLOSE
-|        aggregate_function CURLY_OPEN aggregate_elements CURLY_CLOSE
-|        term binop aggregate_function CURLY_OPEN aggregate_elements CURLY_CLOSE
-|        term binop aggregate_function CURLY_OPEN CURLY_CLOSE binop term
-|        term binop aggregate_function CURLY_OPEN CURLY_CLOSE
-|        term binop aggregate_function CURLY_OPEN aggregate_elements CURLY_CLOSE binop term
+aggregate: aggregate_function CURLY_OPEN aggregate_elements CURLY_CLOSE binop term
+|           aggregate_function CURLY_OPEN aggregate_elements CURLY_CLOSE binop classical_literal
+|           aggregate_function CURLY_OPEN CURLY_CLOSE binop term
+|           aggregate_function CURLY_OPEN CURLY_CLOSE binop classical_literal
+|           aggregate_function CURLY_OPEN CURLY_CLOSE
+|           aggregate_function CURLY_OPEN aggregate_elements CURLY_CLOSE
+|           b aggregate_function CURLY_OPEN aggregate_elements CURLY_CLOSE
+|           b aggregate_function CURLY_OPEN CURLY_CLOSE binop term
+|           b aggregate_function CURLY_OPEN CURLY_CLOSE binop classical_literal
+|           b aggregate_function CURLY_OPEN CURLY_CLOSE
+|           b aggregate_function CURLY_OPEN aggregate_elements CURLY_CLOSE binop term
+|           b aggregate_function CURLY_OPEN aggregate_elements CURLY_CLOSE binop classical_literal
+;
 
-aggregate_elements : aggregate_elements SEMICOLON aggregate_element
+aggregate_elements: aggregate_elements SEMICOLON aggregate_element
 |                    aggregate_element
+;
 
-aggregate_element : terms COLON naf_literals
+aggregate_element: terms COLON naf_literals
 |                   terms
 |                   terms COLON
 |                   COLON
 |                   COLON naf_literals
+;
 
-aggregate_function : AGGREGATE_COUNT | AGGREGATE_MAX | AGGREGATE_MIN | AGGREGATE_SUM
+aggregate_function: AGGREGATE_COUNT | AGGREGATE_MAX | AGGREGATE_MIN | AGGREGATE_SUM
+;
 
-optimize : optimize_function CURLY_OPEN optimize_elements CURLY_CLOSE
+optimize: optimize_function CURLY_OPEN optimize_elements CURLY_CLOSE
 |          optimize_function CURLY_OPEN CURLY_CLOSE
+;
 
-optimize_function : MAXIMIZE | MINIMIZE
+optimize_function: MAXIMIZE | MINIMIZE
+;
 
-optimize_elements : optimize_elements SEMICOLON optimize_element 
+optimize_elements: optimize_elements SEMICOLON optimize_element 
 |                   optimize_element
+;
 
-optimize_element : weight_at_level COLON naf_literals
+optimize_element: weight_at_level COLON naf_literals
 |                  weight_at_level COLON
 |                  weight_at_level
+;
 
-weight_at_level : term AT term COMMA terms
+weight_at_level: term AT term COMMA terms
+|                 classical_literal AT term COMMA terms
+|                 term AT classical_literal COMMA terms
+|                 classical_literal AT classical_literal COMMA terms
 |                 term AT term
+|                 classical_literal AT term
+|                 term AT classical_literal
+|                 classical_literal AT classical_literal
 |                 term
+|                 classical_literal
+;
 
-
-naf_literals : naf_literals COMMA naf_literal 
+naf_literals: naf_literals COMMA naf_literal 
 |              naf_literal
+;
 
-naf_literal : classical_literal
+naf_literal: classical_literal
 |             NAF classical_literal
 |             builtin_atom
+;
 
-classical_literal : MINUS ID PAREN_OPEN terms PAREN_CLOSE
-|                   ID PAREN_OPEN terms PAREN_CLOSE
-|                   MINUS ID
-|                   MINUS ID PAREN_OPEN PAREN_CLOSE
-|                   ID PAREN_OPEN PAREN_CLOSE
-|                   ID
+builtin_atom: b term | b classical_literal
+;
 
+binop: EQUAL | UNEQUAL | LESS | GREATER | LESS_OR_EQ | GREATER_OR_EQ
+;
 
-builtin_atom : term binop term
+terms: terms COMMA term 
+|       terms COMMA classical_literal
+|       term
+|       classical_literal
+;
 
-binop : EQUAL | UNEQUAL | LESS | GREATER | LESS_OR_EQ | GREATER_OR_EQ
-
-terms : terms COMMA term | term
-
-term : ID PAREN_OPEN terms PAREN_CLOSE
-|      ID PAREN_OPEN PAREN_CLOSE
-|      ID
-|      NUMBER
+term: NUMBER
 |      STRING
 |      VARIABLE
 |      ANONYMOUS_VARIABLE
 |      PAREN_OPEN term PAREN_CLOSE
-|      MINUS term
+;
 
+classical_literal: ID
+|   ID PAREN_OPEN PAREN_CLOSE
+|   ID PAREN_OPEN terms PAREN_CLOSE
+|      MINUS classical_literal
+;
 
-arithop : PLUS | MINUS | TIMES | DIV
+b: term binop
+|   classical_literal binop
+;
 %%
 int yyerror(char *s){
     printf("%s",s);

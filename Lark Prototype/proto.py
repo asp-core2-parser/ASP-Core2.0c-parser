@@ -132,6 +132,10 @@ term : NUMBER
 |      VARIABLE
 |      ANONYMOUS_VARIABLE
 |      PAREN_OPEN term PAREN_CLOSE
+|      NUMBER arithop term
+|      STRING arithop term
+|      ANONYMOUS_VARIABLE arithop term
+
 
 
 

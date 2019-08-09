@@ -1,51 +1,52 @@
 %option noyywrap
 %{
-    #include <stdio.h>
-    #include <string.h>
+	#include "parser.tab.h"
+    	#include <stdio.h>
+    	#include <string.h>
 %}
 
 %%
 
-"not"              {printf("NOT");}
-[a-z][A-Za-z0-9_]* {printf("ID");}
-[A-Z][A-Za-z0-9_]* {printf("VARIABLE");}
-\"([^\"]|\\\")*\"  {printf("STRING");}
-"0"|[1-9][0-9]*    {printf("NUMBER");}
-"_"                {printf("ANONYMOUS_VARIABLE");}
-"."                {printf("DOT");}
-","                {printf("COMMA");}
-"?"                {printf("QUERY_MARK");}
-":"                {printf("COLON");}
-";"                {printf("SEMICOLON");}
-"|"                {printf("OR");}
-":-"               {printf("CONS");}
-":~"               {printf("WCONS");}
-"+"                {printf("PLUS");}
-"-"                {printf("MINUS");}
-"*"                {printf("TIMES");}
-"/"                {printf("DIV");}
-"@"                {printf("AT");}
-"("                {printf("PAREN_OPEN");}
-")"                {printf("PAREN_CLOSE");}
-"["                {printf("SQUARE_OPEN");}
-"]"                {printf("SQUARE_CLOSE");}
-"{"                {printf("CURLY_OPEN");}
-"}"                {printf("CURLY_CLOSE");}
-"="                {printf("EQUAL");}
-"<>"|"!="          {printf("UNEQUAL");}
-"<"                {printf("LESS");}
-"<="               {printf("LESS_OR_EQ");}
-">"                {printf("GREATER");}
-">="               {printf("GREATER_OR_EQ");}
-"#count"           {printf("AGGREGATE_COUNT");}
-"#max"             {printf("AGGREGATE_MAX");}
-"#min"             {printf("AGGREGATE_MIN");}
-"#sum"             {printf("AGGREGATE_SUM");}
-"#minimi"[zs]"e"   {printf("MINIMIZE");}
-"#maximi"[zs]"e"   {printf("MAXIMIZE");}
-%([^*\n][^\n]*)?\n {printf("COMMENT");}
-"%*"([^*]|\*[^%])*"*%" {printf("MULTI_LINE_COMMENT");}
-[ \t\n]+           {printf("BLANK");}
+"not"              	{return NOT;}
+[a-z][A-Za-z0-9_]* 	{return ID;}
+[A-Z][A-Za-z0-9_]* 	{return VARIABLE;}
+\"([^\"]|\\\")*\"  	{return STRING;}
+"0"|[1-9][0-9]*    	{return NUMBER;}
+"_"                	{return ANONYMOUS_VARIABLE;}
+"."                	{return DOT;}
+","                	{return COMMA;}
+"?"                	{return QUERY_MARK;}
+":"                	{return COLON;}
+";"                	{return SEMICOLON;}
+"|"                	{return OR;}
+":-"               	{return CONS;}
+":~"               	{return WCONS;}
+"+"                	{return PLUS;}
+"-"                	{return MINUS;}
+"*"                	{return TIMES;}
+"/"                	{return DIV;}
+"@"                	{return AT;}
+"("                	{return PAREN_OPEN;}
+")"                	{return PAREN_CLOSE;}
+"["                	{return SQUARE_OPEN;}
+"]"                	{return SQUARE_CLOSE;}
+"{"                	{return CURLY_OPEN;}
+"}"                	{return CURLY_CLOSE;}
+"="                	{return EQUAL;}
+"<>"|"!="          	{return UNEQUAL;}
+"<"                	{return LESS;}
+"<="               	{return LESS_OR_EQ;}
+">"                	{return GREATER;}
+">="               	{return GREATER_OR_EQ;}
+"#count"           	{return AGGREGATE_COUNT;}
+"#max"             	{return AGGREGATE_MAX;}
+"#min"             	{return AGGREGATE_MIN;}
+"#sum"             	{return AGGREGATE_SUM;}
+"#minimi"[zs]"e"   	{return MINIMIZE;}
+"#maximi"[zs]"e"   	{return MAXIMIZE;}
+%([^*\n][^\n]*)?\n 	{return COMMENT;}
+"%*"([^*]|\*[^%])*"*%"  {return MULTI_LINE_COMMENT;}
+[ \t\n]+           	{return BLANK;}
 %%
 
 int main(int argc, char** argv){
