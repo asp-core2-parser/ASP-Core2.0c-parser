@@ -180,6 +180,7 @@ termdue: NUMBER arithop
 |      ANONYMOUS_VARIABLE arithop
 |      PAREN_OPEN termdue PAREN_CLOSE arithop
 |      PAREN_OPEN term PAREN_CLOSE arithop
+|      ID PAREN_OPEN terms PAREN_CLOSE arithop
 ;
 
 arithop: PLUS | MINUS | TIMES | DIV
