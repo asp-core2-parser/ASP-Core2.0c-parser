@@ -141,6 +141,7 @@ termdue: NUMBER arithop
 |      ANONYMOUS_VARIABLE arithop
 |      PAREN_OPEN termdue PAREN_CLOSE arithop
 |      PAREN_OPEN term PAREN_CLOSE arithop
+|      ID PAREN_OPEN terms PAREN_CLOSE arithop
 
 arithop : PLUS | MINUS | TIMES | DIV
 
@@ -148,6 +149,7 @@ classical_literal : ID
 |   ID PAREN_OPEN PAREN_CLOSE
 |   ID PAREN_OPEN terms PAREN_CLOSE
 |      MINUS classical_literal
+
 
 
 b: term binop
