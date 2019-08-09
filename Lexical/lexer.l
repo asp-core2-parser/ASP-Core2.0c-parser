@@ -6,7 +6,7 @@
 
 %%
 
-"not"              {printf("NOT"); //written before ID otherwise Flex can't match it}
+"not"              {printf("NOT");}
 [a-z][A-Za-z0-9_]* {printf("ID");}
 [A-Z][A-Za-z0-9_]* {printf("VARIABLE");}
 \"([^\"]|\\\")*\"  {printf("STRING");}
