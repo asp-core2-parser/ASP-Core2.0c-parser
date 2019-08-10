@@ -21,6 +21,9 @@
 *.a
 *.la
 *.lo
+*.tab.h
+*.tab.c
+*.yy.c
 
 # Shared objects (inc. Windows DLLs)
 *.dll
