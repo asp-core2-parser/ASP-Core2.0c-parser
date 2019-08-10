@@ -4,6 +4,7 @@
     	#include <stdio.h>
     	#include <string.h>
 %}
+%x IN_COMMENT
 
 %%
 
@@ -44,7 +45,17 @@
 "#sum"             	{return AGGREGATE_SUM;}
 "#minimi"[zs]"e"   	{return MINIMIZE;}
 "#maximi"[zs]"e"   	{return MAXIMIZE;}
-%([^*\n][^\n]*)?\n 	{return COMMENT;}
-"%*"([^*]|\*[^%])*"*%"  {return MULTI_LINE_COMMENT;}
-[ \t\n]+           	{return BLANK;}
+%([^*\n][^\n]*)?\n 	{/* ignore comments */}
+[ \t\n]+           	{/* ignore blanks */}
+<INITIAL>{
+"/*"              BEGIN(IN_COMMENT);
+}
+<IN_COMMENT>{
+"*/"      BEGIN(INITIAL);
+[^*\n]+   // eat comment in chunks
+"*"       // eat the lone star
+\n        yylineno++;
+}
+
 %%
+
