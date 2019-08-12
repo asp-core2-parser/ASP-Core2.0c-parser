@@ -171,10 +171,10 @@ term:  NUMBER
 |      PAREN_OPEN term PAREN_CLOSE
 |      termdue term
 |      termdue termdue
-|      c term
-|      c ID
-|      termdue c
 |      termdue ID
+|      termdue ID PAREN_OPEN PAREN_CLOSE
+|      termdue ID PAREN_OPEN terms PAREN_CLOSE
+|      termdue MINUS classical_literal
 ;
 
 termdue: NUMBER arithop
@@ -184,10 +184,11 @@ termdue: NUMBER arithop
 |      PAREN_OPEN termdue PAREN_CLOSE arithop
 |      PAREN_OPEN term PAREN_CLOSE arithop
 |      ID PAREN_OPEN terms PAREN_CLOSE arithop
+|      ID arithop
+|      ID PAREN_OPEN PAREN_CLOSE arithop
+|      MINUS classical_literal arithop
 ;
 
-c: ID arithop
-;
 
 arithop: PLUS | MINUS | TIMES | DIV
 ;
