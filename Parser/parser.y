@@ -175,14 +175,17 @@ term:  NUMBER
 |      STRING
 |      VARIABLE
 |      ANONYMOUS_VARIABLE
+
+|      PAREN_OPEN term PAREN_CLOSE
+|      PAREN_OPEN classical_literal PAREN_CLOSE
+
 |      MINUS NUMBER
 |      MINUS STRING
 |      MINUS VARIABLE
 |      MINUS ANONYMOUS_VARIABLE
-|      PAREN_OPEN term PAREN_CLOSE
-|      PAREN_OPEN ID PAREN_CLOSE
-|      PAREN_OPEN ID PAREN_OPEN PAREN_CLOSE PAREN_CLOSE
-|      PAREN_OPEN ID PAREN_OPEN terms PAREN_CLOSE PAREN_CLOSE
+|      MINUS PAREN_OPEN term PAREN_CLOSE
+|      MINUS PAREN_OPEN classical_literal PAREN_CLOSE
+
 |      left_arithop term
 |      left_arithop ID
 |      left_arithop ID PAREN_OPEN PAREN_CLOSE
@@ -194,16 +197,21 @@ left_arithop: NUMBER arithop
 |      STRING arithop
 |      VARIABLE arithop
 |      ANONYMOUS_VARIABLE arithop
-|      PAREN_OPEN left_arithop PAREN_CLOSE arithop
+
 |      PAREN_OPEN term PAREN_CLOSE arithop
-|      ID PAREN_OPEN terms PAREN_CLOSE arithop
+|      PAREN_OPEN classical_literal PAREN_CLOSE
+
 |      ID arithop
+|      ID PAREN_OPEN terms PAREN_CLOSE arithop
 |      ID PAREN_OPEN PAREN_CLOSE arithop
 |      MINUS classical_literal arithop
+
 |      MINUS NUMBER arithop
 |      MINUS STRING arithop
 |      MINUS VARIABLE arithop
 |      MINUS ANONYMOUS_VARIABLE arithop
+|      MINUS PAREN_OPEN term PAREN_CLOSE arithop
+|      MINUS PAREN_OPEN classical_literal PAREN_CLOSE arithop
 ;
 
 
