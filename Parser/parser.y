@@ -142,6 +142,7 @@ weight_at_level:  term AT term COMMA terms
 |                 term AT term
 |                 term AT classical_literal
 |                 term
+|                 term COMMA terms
 |                 classical_literal AT term COMMA terms
 |                 classical_literal AT classical_literal COMMA terms
 |                 classical_literal AT term
@@ -174,6 +175,10 @@ term:  NUMBER
 |      STRING
 |      VARIABLE
 |      ANONYMOUS_VARIABLE
+|      MINUS NUMBER
+|      MINUS STRING
+|      MINUS VARIABLE
+|      MINUS ANONYMOUS_VARIABLE
 |      PAREN_OPEN term PAREN_CLOSE
 |      PAREN_OPEN ID PAREN_CLOSE
 |      PAREN_OPEN ID PAREN_OPEN PAREN_CLOSE PAREN_CLOSE
@@ -222,7 +227,7 @@ int yyerror(char *s){
 
 int main(){
     extern int yydebug;
-    yydebug = 1;
+    yydebug = 0;
     yyparse();
     return 0;
 }

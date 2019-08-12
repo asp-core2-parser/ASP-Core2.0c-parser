@@ -45,7 +45,7 @@
 "#sum"             	{return AGGREGATE_SUM;}
 "#minimi"[zs]"e"   	{return MINIMIZE;}
 "#maximi"[zs]"e"   	{return MAXIMIZE;}
-^%.* 	            {printf("ciao"); /* ignore comments */}
+^%.* 	            {/* ignore comments */}
 [ \t]+           	{/* ignore blanks */}
 \n					{++yylineno;}
 <INITIAL>{
