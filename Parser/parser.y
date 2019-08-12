@@ -1,10 +1,10 @@
 %{
     #include <stdio.h>
     #include <stdlib.h>
-    int yylex(void);
+    extern int yylex(void);
     extern int yylineno;
     extern int yyparse();
-    int yyerror(char* s);
+    extern int yyerror(char* s);
     extern FILE* yyin;
 %}
 
@@ -13,11 +13,15 @@
 %type <number> NUMBER
 %type <string> ID VARIABLE NAF CONS WCONS UNEQUAL LESS_OR_EQ GREATER_OR_EQ AGGREGATE_COUNT AGGREGATE_MAX AGGREGATE_MIN AGGREGATE_SUM MINIMIZE MAXIMIZE
 %type <single> ANONYMOUS_VARIABLE DOT COMMA QUERY_MARK COLON SEMICOLON OR PLUS MINUS TIMES DIV AT PAREN_OPEN PAREN_CLOSE SQUARE_OPEN SQUARE_CLOSE CURLY_OPEN CURLY_CLOSE EQUAL LESS GREATER
+
 %union{
     char single;
     char string[50];
     double number;
 }
+%left TIMES DIV
+%left PLUS MINUS
+%right EQUAL UNEQUAL GREATER LESS GREATER_OR_EQ LESS_OR_EQ
 %%
 start: program
 |
@@ -191,6 +195,10 @@ left_arithop: NUMBER arithop
 |      ID arithop
 |      ID PAREN_OPEN PAREN_CLOSE arithop
 |      MINUS classical_literal arithop
+|      MINUS NUMBER arithop
+|      MINUS STRING arithop
+|      MINUS VARIABLE arithop
+|      MINUS ANONYMOUS_VARIABLE arithop
 ;
 
 
@@ -214,7 +222,7 @@ int yyerror(char *s){
 
 int main(){
     extern int yydebug;
-    yydebug = 0;
+    yydebug = 1;
     yyparse();
     return 0;
 }
