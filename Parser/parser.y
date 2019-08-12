@@ -19,6 +19,7 @@
 }
 %%
 s: program
+|
 ;
 
 program: statements 
