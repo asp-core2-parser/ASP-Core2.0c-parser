@@ -46,7 +46,8 @@
 "#minimi"[zs]"e"   	{return MINIMIZE;}
 "#maximi"[zs]"e"   	{return MAXIMIZE;}
 %([^*\n][^\n]*)?\n 	{/* ignore comments */}
-[ \t\n]+           	{/* ignore blanks */}
+[ \t]+           	{/* ignore blanks */}
+\n					{++yylineno;}
 <INITIAL>{
 "/*"              BEGIN(IN_COMMENT);
 }
