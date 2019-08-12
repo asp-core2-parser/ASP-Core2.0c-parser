@@ -1,6 +1,0 @@
-{
-    "files.associations": {
-        "parser.tab.h": "c",
-        "stdio.h": "c"
-    }
-}
