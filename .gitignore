@@ -1,6 +1,10 @@
 # Prerequisites
 *.d
 .vscode
+.idea/
+*.iml
+*.class
+*.java
 # Object files
 *.o
 *.ko
