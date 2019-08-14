@@ -88,7 +88,7 @@ choice_elements: choice_elements SEMICOLON choice_element
 |                 choice_element
 ;
 
-choice_element: classical_literal COLON naf_literal
+choice_element: classical_literal COLON naf_literals
 |               classical_literal COLON
 |               classical_literal
 ;
