@@ -88,7 +88,7 @@ choice_elements: choice_elements SEMICOLON choice_element
 |                 choice_element
 ;
 
-choice_element: classical_literal COLON naf_literals
+choice_element: classical_literal COLON naf_literal
 |               classical_literal COLON
 |               classical_literal
 ;
@@ -108,7 +108,9 @@ aggregate:  aggregate_function CURLY_OPEN aggregate_elements CURLY_CLOSE binop t
 ;
 
 aggregate_elements: aggregate_elements SEMICOLON aggregate_element
-|                    aggregate_element
+|                   aggregate_element
+|                   aggregate_elements SEMICOLON
+|                   SEMICOLON
 ;
 
 aggregate_element: terms COLON naf_literals
