@@ -1,6 +1,10 @@
 # Prerequisites
 *.d
-
+.vscode
+.idea/
+*.iml
+*.class
+*.java
 # Object files
 *.o
 *.ko
@@ -21,6 +25,9 @@
 *.a
 *.la
 *.lo
+*.tab.h
+*.tab.c
+*.yy.c
 
 # Shared objects (inc. Windows DLLs)
 *.dll
