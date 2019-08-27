@@ -2,6 +2,7 @@
 *.d
 .vscode
 .idea/
+gen/
 *.iml
 *.class
 *.java
@@ -10,7 +11,8 @@
 *.ko
 *.obj
 *.elf
-
+*.interp
+*.tokens
 # Linker output
 *.ilk
 *.map

@@ -28,7 +28,7 @@ classical_literal :  MINUS? ID  (PAREN_OPEN  terms? PAREN_CLOSE)?;
 builtin_atom : term binop term;
 binop : EQUAL | UNEQUAL | LESS | GREATER | LESS_OR_EQ | GREATER_OR_EQ;
 terms :  term (COMMA terms)?;
-term : ID  PAREN_OPEN  terms? PAREN_CLOSE?
+term : ID  (PAREN_OPEN  terms? PAREN_CLOSE)?
      | NUMBER
      | STRING
      | VARIABLE
